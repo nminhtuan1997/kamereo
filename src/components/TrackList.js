@@ -2,11 +2,20 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import TrackItem from './TrackItem';
 import { Grid } from '@mui/material';
+import CircularProgress from '@mui/material/CircularProgress';
 
 const TrackList = () => {
   const tracks = useSelector((state) => state.tracks.items);
   const error = useSelector((state) => state.tracks.error);
-  
+  const loading = useSelector((state) => state.tracks.loading);
+  console.log(loading)
+  if (loading) {
+    return (
+      <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
+        <CircularProgress />
+      </div>
+    );
+  }
   if (error) {
     return <p>Error fetching data: {error}</p>;
   }
@@ -22,6 +31,7 @@ const TrackList = () => {
           <TrackItem track={track} />
         </Grid>
       ))}
+   
     </Grid>
   );
 };

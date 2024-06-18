@@ -4,6 +4,7 @@ const initialState = {
   loading: false,
   items: [],
   error: null,
+  cache:{}
 };
 
 const trackReducer = (state = initialState, action) => {
@@ -25,6 +26,14 @@ const trackReducer = (state = initialState, action) => {
         ...state,
         loading: false,
         error: action.payload,
+      };
+    case 'CACHE_TRACKS':
+      return {
+        ...state,
+        cache: {
+          ...state.cache,
+          [action.payload.query]: action.payload.tracks,
+        },
       };
     default:
       return state;

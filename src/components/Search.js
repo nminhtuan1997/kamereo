@@ -2,10 +2,12 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { TextField, Button } from '@mui/material';
 import { fetchTracks } from '../redux/actions/trackActions';
+import { useSelector } from 'react-redux';
 
 const Search = () => {
   const [query, setQuery] = useState('');
   const dispatch = useDispatch();
+  const loading = useSelector((state) => state.tracks.loading);
 
   const handleSearch = () => {
     if (query.trim()) {
@@ -23,7 +25,7 @@ const Search = () => {
         style={{ marginRight: '10px' }}
       />
       <Button variant="contained" color="primary" onClick={handleSearch}>
-        Search
+      {loading ? 'Loading...' : 'Search'}
       </Button>
     </div>
   );

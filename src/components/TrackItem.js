@@ -16,6 +16,10 @@ const TrackItem = ({ track }) => {
         <Typography variant="subtitle1" color="textSecondary">
           {track.artistName}
         </Typography>
+        <Typography variant="subtitle1" color="textSecondary">
+          Price: {track. collectionPrice}
+        </Typography>
+       
       </CardContent>
     </Card>
   );

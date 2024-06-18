@@ -18,11 +18,18 @@ const fetchTracksFailure = (error) => ({
   payload: error,
 });
 
-export const fetchTracks = (query) => async (dispatch) => {
+export const fetchTracks = (query) => async (dispatch,getState) => {
   dispatch(fetchTracksRequest());
+  const cachedTracks = getState().tracks.cache[query];
+  if (cachedTracks) {
+    dispatch(fetchTracksSuccess(cachedTracks));
+    return;
+  }
   try {
     const response = await axios.get(`https://itunes.apple.com/search?term=${query}`);
-    dispatch(fetchTracksSuccess(response.data.results));
+    const tracks = response.data.results;
+    dispatch(fetchTracksSuccess(tracks));
+    dispatch({ type: 'CACHE_TRACKS', payload: { query, tracks } });
   } catch (error) {
     dispatch(fetchTracksFailure(error.message));
   }
